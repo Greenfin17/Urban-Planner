@@ -45,7 +45,7 @@ namespace Urban_Planner
                 Console.WriteLine("               Enter name of purchaser:");
                 Console.Write("               ");
                string input = Console.ReadLine();
-                Console.WriteLine("               Purchasing the building.");
+                Console.WriteLine("               Purchasing the building.\n");
                 buildingList[buildingChoice].Purchase(input);
             }
             else
@@ -63,7 +63,7 @@ namespace Urban_Planner
             {
                 if (!buildingList[i].Constructed())
                 {
-                    Console.WriteLine($"              {i}) {buildingList[i].Address()}");
+                    Console.WriteLine($"               {i}) {buildingList[i].Address()}");
                 }
             }
             inputKey = Console.ReadKey(true);
@@ -160,11 +160,6 @@ namespace Urban_Planner
                         break;
                 }
             }
-
-
-            Console.WriteLine($"               Press any key to exit");
-            InputKey = Console.ReadKey(true);
-
         }
     }
 }
