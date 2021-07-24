@@ -81,5 +81,11 @@ namespace Urban_Planner.Structures
         {
             return _address;
         }
+
+        public bool Constructed()
+        {
+            return (_dateConstructed != DateTime.MinValue);
+        }
+
     }
 }

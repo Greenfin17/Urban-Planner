@@ -15,6 +15,7 @@ namespace Urban_Planner
             Console.WriteLine("               Enter building address:");
             Console.Write("               ");
             address = Console.ReadLine();
+            Console.Write('\n');
             Building tempBuilding = new Building(address);
             buildingList.Add(tempBuilding);
         }
@@ -24,7 +25,7 @@ namespace Urban_Planner
             for (int i = 0; i < buildingList.Count; i++)
             {
                 buildingList[i].Status();
-                Console.Write("\n               ");
+                Console.Write('\n');
             }
         }
 
@@ -35,7 +36,7 @@ namespace Urban_Planner
             Console.WriteLine("               Select building to purchase:");
             for (int i = 0; i < buildingList.Count; i++)
             {
-                Console.WriteLine($"              {i}) {buildingList[i].Address()}");
+                Console.WriteLine($"               {i}) {buildingList[i].Address()}");
             }
             inputKey = Console.ReadKey(true);
             buildingChoice = (int) Char.GetNumericValue(inputKey.KeyChar);
@@ -60,7 +61,10 @@ namespace Urban_Planner
             Console.WriteLine("               Select building to construct:");
             for (int i = 0; i < buildingList.Count; i++)
             {
-                Console.WriteLine($"              {i}) {buildingList[i].Address()}");
+                if (!buildingList[i].Constructed())
+                {
+                    Console.WriteLine($"              {i}) {buildingList[i].Address()}");
+                }
             }
             inputKey = Console.ReadKey(true);
             buildingChoice = (int) Char.GetNumericValue(inputKey.KeyChar);
@@ -134,7 +138,7 @@ namespace Urban_Planner
                 Console.WriteLine("               x) Exit:");
 
                 InputKey = Console.ReadKey(true);
-                Console.Write("\n              ");
+                Console.Write("\n");
                 switch (InputKey.KeyChar)
                 {
                     case '1':
