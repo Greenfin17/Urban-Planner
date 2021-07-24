@@ -12,9 +12,28 @@ namespace Urban_Planner
         static void Main(string[] args)
         {
             ConsoleKeyInfo inputKey = new ConsoleKeyInfo();
+            bool exit = false;
+            List<Building> buildings = new List<Building>();
+
+            Console.WriteLine("\n\n               Welcome to the Urban Plannerl\n");
+            while (!exit)
+            {
+                Console.WriteLine("               Select option:");
+                Console.WriteLine("               1) Create building plan:");
+                Console.WriteLine("               2) Construct building:");
+                Console.WriteLine("               3) Purchase building:");
+                Console.WriteLine("               4) List buildings:");
+                Console.WriteLine("               x) Exit:");
+
+                inputKey = Console.ReadKey(true);
+                Console.Write('\n');
+                if (inputKey.KeyChar == 'x')
+                {
+                    exit = true;
+                }
+            }
 
             string[] purchasers = new string[] { "Art Linkletter", "Bob Ross", "Homer Simpson", "Mr. Burns" };
-            List<Building> buildings = new List<Building>();
 
             Console.WriteLine("\n\n               Welcome to the Urban Plannerl\n");
             Console.WriteLine("               Creating Building Plans....");
