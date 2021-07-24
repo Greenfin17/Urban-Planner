@@ -30,13 +30,19 @@ namespace Urban_Planner.Structures
             Volume = 0;
         }
 
-        public void Construct(int stories, double width, double depth)
+        public bool Construct(int stories, double width, double depth)
         {
-            _dateConstructed = DateTime.Now;
-            Stories = stories;
-            Width = width;
-            Depth = depth;
-            Volume = Width * Depth * (3 * Stories);
+            bool returnVal = false;
+            if (_dateConstructed == DateTime.MinValue)
+            {
+                _dateConstructed = DateTime.Now;
+                Stories = stories;
+                Width = width;
+                Depth = depth;
+                Volume = Width * Depth * (3 * Stories);
+                returnVal = true;
+            }
+            return returnVal;
         }
 
         public void Purchase(string purchaser)
@@ -46,7 +52,7 @@ namespace Urban_Planner.Structures
 
         public void Status()
         {
-            Console.WriteLine($"               Designed by {_designer}");
+            Console.WriteLine($"               {_address} Designed by {_designer}");
             if (_dateConstructed != DateTime.MinValue)
             {
                 Console.WriteLine($"               Consructed on {_dateConstructed}");
@@ -67,7 +73,7 @@ namespace Urban_Planner.Structures
             }
             if (_dateConstructed != DateTime.MinValue)
             {
-                Console.WriteLine($"               {Volume} cubit meters of space.");
+                Console.WriteLine($"               {Volume} cubic meters of space.");
             }
 
         }

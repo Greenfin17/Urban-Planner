@@ -9,13 +9,121 @@ namespace Urban_Planner
 {
     class Program
     {
-        static void Main(string[] args)
+        static void AddPlan(ref List<Building> buildingList)
+        {
+            string address; 
+            Console.WriteLine("               Enter building address:");
+            Console.Write("               ");
+            address = Console.ReadLine();
+            Building tempBuilding = new Building(address);
+            buildingList.Add(tempBuilding);
+        }
+
+        static void ListBuildings(ref List<Building> buildingList)
+        {
+            for (int i = 0; i < buildingList.Count; i++)
+            {
+                buildingList[i].Status();
+                Console.Write("\n               ");
+            }
+        }
+
+        static void PurchaseBuilding(ref List<Building> buildingList)
         {
             ConsoleKeyInfo inputKey = new ConsoleKeyInfo();
+            int buildingChoice;
+            Console.WriteLine("               Select building to purchase:");
+            for (int i = 0; i < buildingList.Count; i++)
+            {
+                Console.WriteLine($"              {i}) {buildingList[i].Address()}");
+            }
+            inputKey = Console.ReadKey(true);
+            buildingChoice = (int) Char.GetNumericValue(inputKey.KeyChar);
+            if( buildingChoice >= 0 && buildingChoice < buildingList.Count)
+            {
+                Console.WriteLine("               Enter name of purchaser:");
+                Console.Write("               ");
+               string input = Console.ReadLine();
+                Console.WriteLine("               Purchasing the building.");
+                buildingList[buildingChoice].Purchase(input);
+            }
+            else
+            {
+                Console.WriteLine("               Invalid choice.");
+            }
+        }
+
+        static void ConstructBuilding(ref List<Building> buildingList)
+        {
+            ConsoleKeyInfo inputKey = new ConsoleKeyInfo();
+            int buildingChoice;
+            Console.WriteLine("               Select building to construct:");
+            for (int i = 0; i < buildingList.Count; i++)
+            {
+                Console.WriteLine($"              {i}) {buildingList[i].Address()}");
+            }
+            inputKey = Console.ReadKey(true);
+            buildingChoice = (int) Char.GetNumericValue(inputKey.KeyChar);
+            if( buildingChoice >= 0 && buildingChoice < buildingList.Count)
+            {
+                string input;
+                int stories = 0;
+                int number;
+                double dblNumber;
+                double width = 0.0;
+                double depth = 0.0;
+                bool valid = true;
+                Console.WriteLine("               Enter the number of stories:");
+                Console.Write("               ");
+                input = Console.ReadLine();
+                if (Int32.TryParse(input, out number))
+                {
+                    stories = number;
+                }
+                else valid = false;
+                
+                Console.WriteLine("               Enter the building width:");
+                Console.Write("               ");
+                input = Console.ReadLine();
+                if (double.TryParse(input, out dblNumber))
+                {
+                    width = dblNumber;
+                }
+                else valid = false;
+                
+                Console.WriteLine("               Enter the building depth:");
+                Console.Write("               ");
+                input = Console.ReadLine();
+                if (double.TryParse(input, out dblNumber))
+                {
+                    depth = dblNumber;
+                }
+                else valid = false;
+
+                if (valid)
+                {
+                    if (buildingList[buildingChoice].Construct(stories, width, depth))
+                    {
+                        Console.WriteLine("               Constructing the building.");
+                    } else
+                    {
+                        Console.WriteLine("               This building has already been constructed.");
+
+                    }
+                }
+            } else
+            {
+                Console.WriteLine("               Invalid choice.");
+            }
+            Console.Write('\n');
+        }
+        static void Main(string[] args)
+        {
+            ConsoleKeyInfo InputKey = new ConsoleKeyInfo();
             bool exit = false;
             List<Building> buildings = new List<Building>();
 
-            Console.WriteLine("\n\n               Welcome to the Urban Plannerl\n");
+            Console.WriteLine("\n\n               Welcome to the Urban Planner\n");
             while (!exit)
             {
                 Console.WriteLine("               Select option:");
@@ -25,50 +133,33 @@ namespace Urban_Planner
                 Console.WriteLine("               4) List buildings:");
                 Console.WriteLine("               x) Exit:");
 
-                inputKey = Console.ReadKey(true);
-                Console.Write('\n');
-                if (inputKey.KeyChar == 'x')
+                InputKey = Console.ReadKey(true);
+                Console.Write("\n              ");
+                switch (InputKey.KeyChar)
                 {
-                    exit = true;
+                    case '1':
+                        AddPlan(ref buildings);
+                        break;
+                    case '2':
+                        ConstructBuilding(ref buildings);
+                        break;
+                    case '3':
+                        PurchaseBuilding(ref buildings);
+                        break;
+                    case '4':
+                        ListBuildings(ref buildings);
+                        break;
+                    case 'x':
+                        exit = true;
+                        break;
+                    default:
+                        break;
                 }
             }
 
-            string[] purchasers = new string[] { "Art Linkletter", "Bob Ross", "Homer Simpson", "Mr. Burns" };
 
-            Console.WriteLine("\n\n               Welcome to the Urban Plannerl\n");
-            Console.WriteLine("               Creating Building Plans....");
-            Building OneTwelveBroad = new Building("112 Broadway");
-            Building OneTenChurch = new Building("110 Church St.");
-            Building SevenTwelveFourth = new Building("712 Fourth Ave. South");
-            Building OneTwentyBroad = new Building("120 Broadway");
-
-
-            Console.WriteLine($"               Constructing {OneTwelveBroad.Address()}");
-            OneTwelveBroad.Construct(20, 50.0, 75.0);
-            buildings.Add(OneTwelveBroad);
-            Console.WriteLine($"               Constructing {OneTenChurch.Address()}");
-            OneTenChurch.Construct(15, 45.0, 65.0);
-            buildings.Add(OneTenChurch);
-            Console.WriteLine($"               Constructing {SevenTwelveFourth.Address()}");
-            SevenTwelveFourth.Construct(40, 75.0, 130.0);
-            buildings.Add(SevenTwelveFourth);
-            Console.WriteLine($"               Constructing {OneTwentyBroad.Address()}");
-            OneTwentyBroad.Construct(35, 96.3, 140.7);
-            buildings.Add(SevenTwelveFourth);
-
-            for (int i = 0; i < buildings.Count; i ++)
-            {
-                Console.WriteLine($"               {purchasers[i]} is buying {buildings[i].Address()}");
-                buildings[i].Purchase(purchasers[i]);
-            }
-
-            for (int i = 0; i < buildings.Count; i++)
-            {
-                buildings[i].Status();
-                Console.Write('\n');
-            }
             Console.WriteLine($"               Press any key to exit");
-            inputKey = Console.ReadKey(true);
+            InputKey = Console.ReadKey(true);
 
         }
     }
