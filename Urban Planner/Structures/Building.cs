@@ -30,6 +30,20 @@ namespace Urban_Planner.Structures
             Volume = 0;
         }
 
+        public Building(string address, int stories, double width, double depth, DateTime dateConstructed) : this(address)
+        {
+            Stories = stories;
+            Width = width;
+            Depth = depth;
+            Volume = Width * Depth * (3 * Stories);
+            _dateConstructed = dateConstructed;
+        }
+
+        public Building(string address, int stories, double width, double depth, DateTime dateConstructed, string owner, string designer) : this(address, stories, width, depth, dateConstructed)
+        {
+            _owner = owner;
+            _designer = designer;
+        }
         public bool Construct(int stories, double width, double depth)
         {
             bool returnVal = false;
@@ -55,7 +69,7 @@ namespace Urban_Planner.Structures
             Console.WriteLine($"               {_address} Designed by {_designer}");
             if (_dateConstructed != DateTime.MinValue)
             {
-                Console.WriteLine($"               Consructed on {_dateConstructed}");
+                Console.WriteLine($"               Constructed in {_dateConstructed.Year}");
             }
             else
             {

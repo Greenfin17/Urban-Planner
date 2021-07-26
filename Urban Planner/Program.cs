@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Urban_Planner.Structures;
+using Urban_Planner.GeoEntity;
 
 namespace Urban_Planner
 {
@@ -53,7 +54,6 @@ namespace Urban_Planner
                 Console.WriteLine("               Invalid choice.");
             }
         }
-
         static void ConstructBuilding(ref List<Building> buildingList)
         {
             ConsoleKeyInfo inputKey = new ConsoleKeyInfo();
@@ -121,13 +121,20 @@ namespace Urban_Planner
             }
             Console.Write('\n');
         }
-        static void Main(string[] args)
+            static void DefaultBuildings(ref List<Building> buildingList)
+        {
+            DateTime courtHouseConstructed = new DateTime(1937, 6, 1);
+            Building Courthouse = new Building("1 Public Square", 5, 250, 100, courtHouseConstructed, "City of Nashville", "Frederick Charles Hirons");
+            DateTime Broadway1200Constructed = new DateTime(2019, 6, 1);
+            Building Broadway1200 = new Building("1200 Broadway", 27, 350, 200, Broadway1200Constructed, "Endeavor Real Estate Group", "HKS");
+            buildingList.Add(Courthouse);
+            buildingList.Add(Broadway1200);
+        }
+
+        static void ManageBuildings(ref List<Building> buildingList)
         {
             ConsoleKeyInfo InputKey = new ConsoleKeyInfo();
             bool exit = false;
-            List<Building> buildings = new List<Building>();
-
-            Console.WriteLine("\n\n               Welcome to the Urban Planner\n");
             while (!exit)
             {
                 Console.WriteLine("               Select option:");
@@ -142,16 +149,53 @@ namespace Urban_Planner
                 switch (InputKey.KeyChar)
                 {
                     case '1':
-                        AddPlan(ref buildings);
+                        AddPlan(ref buildingList);
                         break;
                     case '2':
-                        ConstructBuilding(ref buildings);
+                        ConstructBuilding(ref buildingList);
                         break;
                     case '3':
-                        PurchaseBuilding(ref buildings);
+                        PurchaseBuilding(ref buildingList);
                         break;
                     case '4':
-                        ListBuildings(ref buildings);
+                        ListBuildings(ref buildingList);
+                        break;
+                    case 'x':
+                        exit = true;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+        }
+
+        static void Main(string[] args)
+        {
+            ConsoleKeyInfo InputKey = new ConsoleKeyInfo();
+            bool exit = false;
+            List<Building> buildings = new List<Building>();
+            DateTime nashvilleEstablished = new DateTime(1806, 7, 26);
+            City Nashville = new City("Nashville", "John Cooper", nashvilleEstablished, buildings);
+            DefaultBuildings(ref buildings);
+
+            Console.WriteLine("\n\n               Welcome to the Urban Planner\n");
+            while (!exit)
+            {
+                Console.WriteLine("               Select option:");
+                Console.WriteLine("               1) List City data:");
+                Console.WriteLine("               2) Manage buildingx:");
+                Console.WriteLine("               x) Exit:");
+
+                InputKey = Console.ReadKey(true);
+                Console.Write("\n");
+                switch (InputKey.KeyChar)
+                {
+                    case '1':
+                        Nashville.Status();
+                        break;
+                    case '2':
+                        ManageBuildings(ref buildings);
                         break;
                     case 'x':
                         exit = true;
