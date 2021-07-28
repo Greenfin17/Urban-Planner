@@ -30,13 +30,33 @@ namespace Urban_Planner.Structures
             Volume = 0;
         }
 
-        public void Construct(int stories, double width, double depth)
+        public Building(string address, int stories, double width, double depth, DateTime dateConstructed) : this(address)
         {
-            _dateConstructed = DateTime.Now;
             Stories = stories;
             Width = width;
             Depth = depth;
             Volume = Width * Depth * (3 * Stories);
+            _dateConstructed = dateConstructed;
+        }
+
+        public Building(string address, int stories, double width, double depth, DateTime dateConstructed, string owner, string designer) : this(address, stories, width, depth, dateConstructed)
+        {
+            _owner = owner;
+            _designer = designer;
+        }
+        public bool Construct(int stories, double width, double depth)
+        {
+            bool returnVal = false;
+            if (_dateConstructed == DateTime.MinValue)
+            {
+                _dateConstructed = DateTime.Now;
+                Stories = stories;
+                Width = width;
+                Depth = depth;
+                Volume = Width * Depth * (3 * Stories);
+                returnVal = true;
+            }
+            return returnVal;
         }
 
         public void Purchase(string purchaser)
@@ -46,10 +66,10 @@ namespace Urban_Planner.Structures
 
         public void Status()
         {
-            Console.WriteLine($"               Designed by {_designer}");
+            Console.WriteLine($"               {_address} Designed by {_designer}");
             if (_dateConstructed != DateTime.MinValue)
             {
-                Console.WriteLine($"               Consructed on {_dateConstructed}");
+                Console.WriteLine($"               Constructed in {_dateConstructed.Year}");
             }
             else
             {
@@ -67,7 +87,7 @@ namespace Urban_Planner.Structures
             }
             if (_dateConstructed != DateTime.MinValue)
             {
-                Console.WriteLine($"               {Volume} cubit meters of space.");
+                Console.WriteLine($"               {Volume} cubic meters of space.");
             }
 
         }
@@ -75,5 +95,11 @@ namespace Urban_Planner.Structures
         {
             return _address;
         }
+
+        public bool Constructed()
+        {
+            return (_dateConstructed != DateTime.MinValue);
+        }
+
     }
 }
